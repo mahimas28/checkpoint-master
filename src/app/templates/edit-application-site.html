@@ -1,0 +1,35 @@
+{%- extends "layout.html" -%}
+{%- block content -%}
+
+<div class="wrapper-content">
+
+	<h1>URLs</h1>
+	<h2>Editar URL</h2>
+
+	<form action="{{ url_for('setApplicationSite', name=appl_to_edit.name[5:], url_back=url_back) }}" method="POST">
+
+		<ul>
+			<li>{{ form.name.label }}</li>
+			<li>{{ form.name (size=30, placeholder=appl_to_edit.name[10:]) }}</li>
+			{%- if form.name.errors -%}
+				{%- for error in form.name.errors -%}
+					<span class="error">{{ error }}</span>
+				{%- endfor -%}
+			{%- endif -%}
+			<li>{{ form.url_list.label }}</li>
+			<li>{{ form.url_list (size=30, placeholder=appl_to_edit.url_list[0]) }}</li>
+			{%- if form.url_list.errors -%}
+				{%- for error in form.url_list.errors -%}
+					<span class="error">{{ error }}</span>
+				{%- endfor -%}
+			{%- endif -%}
+		</ul>
+		<input type="submit" value="Editar">
+
+	</form>
+
+    <a href="{{ url_for(url_back) }}"><button>Tornar</button></a>
+
+</div>
+
+{%- endblock -%}

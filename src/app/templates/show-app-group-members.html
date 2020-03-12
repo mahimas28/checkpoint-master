@@ -1,0 +1,59 @@
+<!-- select app form -->
+<div class="form-member-title">Triar una URL existent...</div>
+<div class="member">
+    <form class="form-member" action="{{ url_for('addExistingApplication', group_name=name, url_back=url_back) }}" method="POST">
+        <div class="cell big-cell">{{ form_select_app.name (size=1) }}</div>
+        <div class="cell medium-cell">
+            <input type="submit" value="Afegir">
+        </div>
+    </form>
+</div>
+<!-- new app form -->
+<div class="form-member-title">... o afegir una URL nova</div>
+<div class="member">
+    <form class="form-member" action="{{ url_for('addApplicationSite', group_name=name, url_back=url_back) }}" method="POST">
+        <div class="cell big-cell">{{ form_new_app.name (size=38) }}</div>
+        {%- if form_new_app.name.errors -%}
+            {%- for error in form_new_app.name.errors -%}
+            <span class="error">{{ error }}</span>
+            {%- endfor -%}
+        {%- endif -%}
+        <div class="cell big-cell">{{ form_new_app.url_list (size=38) }}</div>
+        {%- if form_new_app.url_list.errors -%}
+            {%- for error in form_new_app.url_list.errors -%}
+            <span class="error">{{ error }}</span>
+            {%- endfor -%}
+        {%- endif -%}
+        <div class="cell medium-cell center">
+            <input type="submit" value="Afegir">
+        </div>
+        <div class="cell small-cell center"></div>
+    </form>
+</div>
+<div class="member-header">
+    <div class="cell big-cell">Nom</div>
+    <div class="cell big-cell">URL</div>
+    <div class="cell small-cell center">Editar</div>
+    <div class="cell small-cell center">Esborrar</div>
+</div>
+<!-- apps detail -->
+{%- if members -%}
+{%- for appl in members -%}
+<div class="member">
+    <div class="cell big-cell">{{ appl.name[10:] }}</div>
+    <div class="cell big-cell">{{ appl.url_list[0] }}</div>
+    <div class="cell small-cell center">
+        <a href="{{ url_for('setApplicationSite', name=appl.name[5:], url_back=url_back) }}">
+            <img src="{{ url_for('static', filename='img/edit.svg') }}" class="icon" alt="Edit">
+        </a>
+    </div>
+    <div class="cell small-cell center">
+        <a href="{{ url_for('deleteApplicationSite', name=appl.name[5:], group_name=name, url_back=url_back) }}">
+            <img src="{{ url_for('static', filename='img/garbage.svg') }}" class="icon" alt="Delete">
+        </a>
+    </div>
+</div>
+{%- endfor -%}
+{%- else -%}
+<div class="form-member-empty">Cap URL en aquesta llista</div>
+{%- endif -%}
